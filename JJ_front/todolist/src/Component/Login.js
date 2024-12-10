@@ -1,11 +1,14 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 function Login({ onLogin }) {
+  const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     // 로그인 처리 로직 (예: username과 password가 맞으면 로그인 성공)
     if (userEmail === "test@test" && password === "password") {
       onLogin(); // 로그인 성공 시 onLogin 호출
