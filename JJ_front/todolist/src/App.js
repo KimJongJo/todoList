@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import TodoList from "./Component/TodoList";
-import Login from "./Component/Login";
+import { Route, Routes } from "react-router-dom";
+import Main from "./Component/Main";
+import { Link } from "react-router-dom";
+import Header from "./Component/Header";
+
 import "./css/styles.css";
+import Signup from "./Component/Signup";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true); // 로그인 성공 시 상태 변경
-  };
-
   return (
     <div className="app">
       <h1>JJ DoList</h1>
-      {isLoggedIn ? <TodoList /> : <Login onLogin={handleLogin} />}
+      <Header />
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
     </div>
   );
 }

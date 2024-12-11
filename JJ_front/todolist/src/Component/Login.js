@@ -9,12 +9,18 @@ function Login({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 로그인 처리 로직 (예: username과 password가 맞으면 로그인 성공)
-    if (userEmail === "test@test" && password === "password") {
-      onLogin(); // 로그인 성공 시 onLogin 호출
-    } else {
-      alert("Invalid credentials!");
-    }
+    axios
+      .post("http://localhost:8080/login", {
+        email: userEmail,
+        password: password,
+      })
+      .then((response) => {
+        if (response === 200) {
+          onLogin();
+        } else {
+          alert("이메일/비밀번호를 확인해주세요");
+        }
+      });
   };
 
   return (
