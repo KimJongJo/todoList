@@ -15,10 +15,22 @@ function Login({ onLogin }) {
         password: password,
       })
       .then((response) => {
-        if (response === 200) {
-          onLogin();
+        console.log(response.data);
+        if (response.status === 200) {
+          setUser(response.data);
+          onLogin(); // 로그인 성공 처리
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          // 서버에서 보낸 에러 메시지 출력
+          console.error("Error Message:", error.response.data);
+          if (error.response.status === 401) {
+            alert(error.response.data); // 서버의 에러 메시지 표시
+          }
         } else {
-          alert("이메일/비밀번호를 확인해주세요");
+          console.error("Unknown Error:", error);
+          alert("문제가 발생했습니다. 다시 시도해주세요.");
         }
       });
   };
