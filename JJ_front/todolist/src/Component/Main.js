@@ -10,7 +10,13 @@ function Main() {
   };
 
   return (
-    <div>{isLoggedIn ? <TodoList /> : <Login onLogin={handleLogin} />}</div>
+    <div>
+      <div>
+        <p>로그인은 성공 - 회원 정보를 저장해야함</p>
+        <p>로그인 성공 했을 때 로그인한 회원의 할일 목록을 불러오기</p>
+      </div>
+      {isLoggedIn ? <TodoList /> : <Login onLogin={handleLogin} />}
+    </div>
   );
 }
 
