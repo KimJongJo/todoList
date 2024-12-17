@@ -1,9 +1,7 @@
 package com.example.JJ_TodoList.dao;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "todos")
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Todos {
 
     @Id
@@ -34,5 +34,6 @@ public class Todos {
     @ManyToOne
     @JoinColumn(name = "users_id", nullable = false)  // 외래키
     private User user;
+
 
 }

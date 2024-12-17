@@ -20,8 +20,8 @@ public class SignUpController {
     @PostMapping("/newUser")
     public ResponseEntity<String> registerUser(@RequestBody UserDTO userDTO){
 
-        User user = signUpService.createUser(userDTO);
-        System.out.println(user);
+        signUpService.createUser(userDTO);
+
         return ResponseEntity.ok("회원가입 완료");
     }
 

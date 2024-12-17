@@ -15,7 +15,6 @@ function Login({ onLogin }) {
         password: password,
       })
       .then((response) => {
-        console.log(response.data);
         if (response.status === 200) {
           setUser(response.data);
           onLogin(); // 로그인 성공 처리
