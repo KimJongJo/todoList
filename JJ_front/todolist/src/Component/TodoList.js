@@ -9,22 +9,45 @@ function TodoList() {
     loadTodos();
   }, []);
 
+  // useEffect(() => {
+  //   console.log(todos);
+  // }, [todos]);
+
+  // const loadTodos = () => {
+  //   const user = JSON.parse(sessionStorage.getItem("user"));
+  //   if (user) {
+  //     axios
+  //       .post(`http://localhost:8080/todo/todos`, {
+  //         params: { userId: user.id },
+  //       })
+  //       .then((response) => {
+  //         // 중복된 할 일 목록을 제거하고 상태 업데이트
+  //         const uniqueTodos = response.data.filter(
+  //           (todo, index, self) =>
+  //             index === self.findIndex((t) => t.todosId === todo.todosId)
+  //         );
+  //         setTodos(uniqueTodos); // 중복된 할 일 제거 후 상태 업데이트
+  //       })
+  //       .catch((error) => {
+  //         console.error("할 일 목록을 불러오는 중 오류 발생", error);
+  //       });
+  //   }
+  // };
+
   const loadTodos = () => {
     axios
-      .post(
-        "http://localhost:8080/todo/todos",
-        {
-          userId: 12,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post("http://localhost:8080/todo/todos", {
+        userId: 12,
+      })
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.length);
+        console.log(response.data); // 응답 데이터를 확인
+        setTodos((prevTodos) => [
+          ...prevTodos,
+          ...response.data.map((item) => ({
+            id: item.todosId,
+            text: item.todosTitle,
+          })),
+        ]);
       });
   };
 
@@ -45,6 +68,13 @@ function TodoList() {
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
+
+    axios.delete("http://localhost:8080/todo/todos", {
+      data: { todosId: id },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (

@@ -9,4 +9,6 @@ public interface TodoService {
     Todos save(TodoDTO todoDTO);
 
     List<Todos> getTodos(Long userId);
+
+    void delete(Long todosId);
 }

@@ -7,6 +7,7 @@ import com.example.JJ_TodoList.repository.TodosRepository;
 import com.example.JJ_TodoList.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class TodoServiceImpl implements TodoService{
 
 
     @Override
+    @Transactional
     public Todos save(TodoDTO todoDTO) {
 
         User user = userRepository.findById(todoDTO.getUserId())
@@ -40,5 +42,11 @@ public class TodoServiceImpl implements TodoService{
     public List<Todos> getTodos(Long userId) {
 
         return todosRepository.findByUser_UserId(userId);
+    }
+
+    @Override
+    public void delete(Long todosId) {
+
+        todosRepository.deleteById(todosId);
     }
 }

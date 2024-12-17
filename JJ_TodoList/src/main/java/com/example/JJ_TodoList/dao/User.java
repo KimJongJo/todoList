@@ -33,7 +33,7 @@ public class User {
     @Column(name = "users_create_at")
     private LocalDateTime createAt;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Todos> todos;
 
     @Builder

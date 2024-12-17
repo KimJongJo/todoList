@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TodoDTO {
+    private Long todosId;
     private String title;
     private Long userId;
 }

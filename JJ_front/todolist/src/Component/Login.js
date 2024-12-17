@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 function Login({ onLogin }) {
-  const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -16,8 +15,7 @@ function Login({ onLogin }) {
       })
       .then((response) => {
         if (response.status === 200) {
-          setUser(response.data);
-          onLogin(); // 로그인 성공 처리
+          onLogin(response.data);
         }
       })
       .catch((error) => {

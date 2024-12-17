@@ -16,6 +16,9 @@ function Main() {
   const handleLogin = (userData) => {
     sessionStorage.setItem("user", JSON.stringify(userData)); // 로그인한 사용자 정보를 sessionStorage에 저장
     setIsLoggedIn(true); // 로그인 상태로 설정
+    console.log(userData);
+    console.log(userData.userId);
+    console.log(userData.userName);
   };
 
   const handleLogout = () => {
@@ -26,8 +29,13 @@ function Main() {
   return (
     <div>
       <div>
-        <p>로그인은 성공 - 회원 정보를 저장해야함</p>
-        <p>로그인 성공 했을 때 로그인한 회원의 할일 목록을 불러오기</p>
+        <h4>기능</h4>
+        <p>회원가입 성공 ✔</p>
+        <p>로그인 성공 ✔</p>
+        <p>할일 추가 성공 ✔</p>
+        <p>할일 삭제 성공 ✔</p>
+        <p>로그인 시 회원의 할일 목록 조회하기 (할일이 하나만 나옴) ❌</p>
+        <p></p>
       </div>
       {isLoggedIn ? (
         <div>
