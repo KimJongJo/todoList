@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function TodoList() {
+function TodoList(props) {
   const [newTodo, setNewTodo] = useState("");
   const [todos, setTodos] = useState([]);
 
@@ -9,72 +9,65 @@ function TodoList() {
     loadTodos();
   }, []);
 
-  // useEffect(() => {
-  //   console.log(todos);
-  // }, [todos]);
-
-  // const loadTodos = () => {
-  //   const user = JSON.parse(sessionStorage.getItem("user"));
-  //   if (user) {
-  //     axios
-  //       .post(`http://localhost:8080/todo/todos`, {
-  //         params: { userId: user.id },
-  //       })
-  //       .then((response) => {
-  //         // 중복된 할 일 목록을 제거하고 상태 업데이트
-  //         const uniqueTodos = response.data.filter(
-  //           (todo, index, self) =>
-  //             index === self.findIndex((t) => t.todosId === todo.todosId)
-  //         );
-  //         setTodos(uniqueTodos); // 중복된 할 일 제거 후 상태 업데이트
-  //       })
-  //       .catch((error) => {
-  //         console.error("할 일 목록을 불러오는 중 오류 발생", error);
-  //       });
-  //   }
-  // };
-
   const loadTodos = () => {
     axios
       .post("http://localhost:8080/todo/todos", {
-        userId: 12,
+        userId: props.user.id,
       })
       .then((response) => {
         console.log(response.data); // 응답 데이터를 확인
-        setTodos((prevTodos) => [
-          ...prevTodos,
-          ...response.data.map((item) => ({
+        setTodos(
+          response.data.map((item) => ({
             id: item.todosId,
             text: item.todosTitle,
-          })),
-        ]);
+          }))
+        );
+      })
+      .catch((error) => {
+        console.error("할 일 목록을 불러오는 중 오류 발생", error);
       });
   };
 
   const handleAddTodo = () => {
     if (newTodo.trim() === "") return;
-    setTodos([...todos, { text: newTodo, id: Date.now() }]);
-    setNewTodo(""); // 입력 후 비우기
 
+    const newTodoItem = { text: newTodo, id: Date.now() };
+
+    // 상태를 업데이트한 후 할 일 목록에 추가
+    setTodos((prevTodos) => [...prevTodos, newTodoItem]);
+
+    // 새로운 할 일을 서버로 추가
     axios
       .post("http://localhost:8080/todo/work", {
         title: newTodo,
-        userId: 12,
+        userId: props.user.id,
       })
       .then((response) => {
-        console.log(response.data);
+        console.log("할 일 추가 성공:", response.data);
+      })
+      .catch((error) => {
+        console.error("할 일 추가 오류 발생", error);
       });
+
+    setNewTodo(""); // 입력 후 비우기
   };
 
   const handleDeleteTodo = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id));
 
-    axios.delete("http://localhost:8080/todo/todos", {
-      data: { todosId: id },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    axios
+      .delete("http://localhost:8080/todo/todos", {
+        data: { todosId: id },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        console.log("할 일 삭제 성공:", response.data);
+      })
+      .catch((error) => {
+        console.error("할 일 삭제 오류 발생", error);
+      });
   };
 
   return (

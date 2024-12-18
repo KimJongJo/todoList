@@ -8,11 +8,6 @@ import "./css/styles.css";
 import Signup from "./Component/Signup";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const handleLogin = (userData) => {
-    setUser(userData); // 로그인 시 user 정보를 업데이트
-  };
-
   return (
     <div className="app">
       <h1>JJ DoList</h1>
